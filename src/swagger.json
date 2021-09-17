@@ -1,0 +1,133 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Documentação CRUD de usuário ",
+        "description": "Esta api pode realizar as funções de um CRUD para usuario ",
+        "version": "1.0.0",
+        "contact": {
+            "email": "feliped3carvalho@gmail.com"
+        }
+    },
+    "paths": {
+        "/users": {
+          "post": {
+            "tags": [
+              "User"
+            ],
+            "summary": "Cria um novo usuário no sistema",
+            "description": "Cria um usuário com nome e e-mail",
+            "requestBody": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      }
+                    },
+                    "example": {
+                      "name": "Maria",
+                      "email": "maria@maria.me"
+                    }
+                  }
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "description": "Usuário criado"
+              },
+              "400": {
+                "description": "Usuário já existe"
+              }
+            }
+          },
+          "get": {
+            "tags": [
+              "User"
+            ],
+            "summary": "Lista todos os usuários",
+            "description": "Lista todos os usuários cadastrados, caso o usuário que fez a requisição seja admin",
+            "parameters": [
+              {
+                "name": "user_id",
+                "in": "header",
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "required": true
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "OK"
+              },
+              "400": {
+                "description": "O usuário não tem permissão"
+              }
+            }
+          }
+        },
+        "/users/{id}": {
+          "get": {
+            "tags": [
+              "User"
+            ],
+            "summary": "Exibe o perfil do usuário",
+            "description": "Mostra os dados do usuário passado na rota",
+            "parameters": [
+              {
+                "in": "path",
+                "name": "id",
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "required": true
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "OK"
+              },
+              "404": {
+                "description": "Usuário não encontrado"
+              }
+            }
+          }
+        },
+        "/users/{id}/admin": {
+          "patch": {
+            "tags": [
+              "User"
+            ],
+            "summary": "Torna um usuário admin",
+            "description": "Muda de usuario comum para administrador",
+            "parameters": [
+              {
+                "in": "path",
+                "name": "id",
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "required": true
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "O usuário tem permissão admin"
+              },
+              "404": {
+                "description": "Usuário não encontrado"
+              }
+            }
+          }
+        }
+      }
+    }
